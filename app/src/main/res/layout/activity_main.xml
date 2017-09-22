@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/title"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <com.ttdt.Util.Custom.InterceptLinearLayout
+            android:id="@+id/ill_main_search"
+            android:layout_width="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/search" />
+        </com.ttdt.Util.Custom.InterceptLinearLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<EditText-->
+        <!--android:background="@drawable/et_bottom_border"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="60dp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/main_"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:text="搜索"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+        <!--</LinearLayout>-->
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/gray"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_rank"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="排行版"
+            android:textColor="@drawable/selector_txt_color" />
+
+        <RadioButton
+            android:id="@+id/rb_local"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="本地音乐"
+            android:textColor="@drawable/selector_txt_color" />
+
+        <RadioButton
+            android:id="@+id/rb_my"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@drawable/selector_txt_color" />
+    </RadioGroup>
+
+    <!-- ViewPager翻页 -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
+
+    <include layout="@layout/play_layout" />
+
+</LinearLayout>
