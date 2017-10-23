@@ -19,6 +19,7 @@ import com.ttdt.MusicPlayerA;
 import com.ttdt.R;
 import com.ttdt.Util.Cons;
 import com.ttdt.Util.Custom.MainActivityObserver;
+import com.ttdt.Util.FileUtil;
 import com.ttdt.Util.Util;
 import com.ttdt.modle.Song;
 
@@ -320,6 +321,13 @@ public class MusicPlayerService extends Service {
     private void stop() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            stopManaer();
+        }
+    }
+
+    private void stopManaer() {
+        if (manager != null) {
+            manager.cancel(1);
         }
     }
 
@@ -329,6 +337,7 @@ public class MusicPlayerService extends Service {
     private void pause() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
+            stopManaer();
         }
     }
 
@@ -344,7 +353,7 @@ public class MusicPlayerService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.ic_launcher_new)
-                    .setContentTitle(song.getName() + "(天天动听正在播放)")
+                    .setContentTitle(song.getName() + "(" + getString(R.string.app_name) + ")正在播放)")
                     .setContentText(song.getArtist() + "--" + song.getAlbumName())
                     .setContentIntent(pendingIntent)
                     .build();
@@ -376,13 +385,18 @@ public class MusicPlayerService extends Service {
     private void openAudio(String url, Song song) {
         try {
             song.setUrl(url);
-            String localUrl = songManager.localIsHasSongReturnUrl(song.getName());
+            String localUrl = null;
+            try{
+                localUrl =  songManager.localIsHasSongReturnUrl(Cons.downMusicDirCache + song.getWyID());
+            }catch (Exception e){
+
+            }
             if (localUrl != null) {
                 url = localUrl;
                 song.setLocal(true);
             }
             if (!song.isLocal()) {
-                SongManager.getInstance().downSong(song, Cons.downMusicDirCache);
+                SongManager.getInstance().downSong(song, Cons.downMusicDirCache,String.valueOf(song.getWyID()),false);
             }
 
             if (mediaPlayer == null) {
@@ -425,6 +439,9 @@ public class MusicPlayerService extends Service {
 
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            if(currentSong.isLocal()){
+                FileUtil.delFile(currentSong.getUrl());
+            }
             Toast.makeText(MusicPlayerService.this, "音乐播放错误" + "what" + what + " extra" + extra, Toast.LENGTH_SHORT).show();
             //next();
             return true;
@@ -444,9 +461,7 @@ public class MusicPlayerService extends Service {
 
     @Override
     public void onDestroy() {
-        if (manager != null) {
-            manager.cancel(1);
-        }
+        stopManaer();
         ReleasePlayer();
         super.onDestroy();
     }

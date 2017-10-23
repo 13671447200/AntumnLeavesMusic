@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.ttdt.MyApplication;
 import com.ttdt.Util.Cons;
-import com.ttdt.Util.Custom.MyJsonRequest;
 import com.ttdt.Util.Util;
 import com.ttdt.modle.PlayList;
 import com.ttdt.modle.User;
@@ -74,7 +74,7 @@ public class LoginManager {
                 .append(name)
                 .append("&passWord=")
                 .append(password).toString();
-        MyJsonRequest mjr = new MyJsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest mjr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 if(jsonObject.has("code")){

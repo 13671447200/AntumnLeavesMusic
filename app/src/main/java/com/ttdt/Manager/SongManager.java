@@ -215,13 +215,17 @@ public class SongManager {
         downSong(song,Cons.downMusicDir,isAddContent);
     }
 
-    public void downSong(final Song song){
-        downSong(song,Cons.downMusicDir,true);
+    public void downSong(final Song song,String save,boolean isAddContent){
+        String name = song.getName() + ".mp3";
+        downSong(song,save,name,isAddContent);
     }
 
+    public void downSong(final Song song){
+        downSong(song,true);
+    }
 
-    public void downSong(final Song song, final String save , final boolean isAddContent){
-        downSong(song.getUrl(), song.getName()+".mp3",save, new DownloadUtil.OnDownloadListener() {
+    public void downSong(final Song song, final String save ,String name,final boolean isAddContent){
+        downSong(song.getUrl(), name, save, new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess() {
                 if(isAddContent){
@@ -257,13 +261,18 @@ public class SongManager {
         return file.exists();
     }
 
-    public String localIsHasSongReturnUrl(String name){
-        File file = new File(Cons.downMusicDirCache+name+".mp3");
+    public String localIsHasSongReturnUrl(String url){
+        File file = new File(url);
         if(file.exists()){
             return file.getAbsolutePath();
         }else {
             return  null;
         }
+    }
+
+    public String localIsHasSongReturnName(String name){
+        String url = Cons.downMusicDirCache+name+".mp3";
+        return localIsHasSongReturnUrl(url);
     }
 
     public void getSongUrl(final int wxId,final GetSongUrlHD getSongUrlHD) {

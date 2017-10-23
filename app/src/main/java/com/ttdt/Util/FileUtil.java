@@ -8,6 +8,14 @@ import java.io.File;
 
 public class FileUtil {
 
+    public static void delFile(String path) {
+        try {
+            File file = new File(path);
+            file.delete();
+        } catch (Exception e) {
+        }
+    }
+
     //删除指定文件夹下所有文件
 //param path 文件夹完整绝对路径
     public static boolean delAllFile(String path) {
@@ -32,19 +40,19 @@ public class FileUtil {
             }
             if (temp.isDirectory()) {
                 delAllFile(path + "/" + tempList[i]);//先删除文件夹里面的文件
-                delFolder(path + "/" + tempList[i],true);//再删除空文件夹
+                delFolder(path + "/" + tempList[i], true);//再删除空文件夹
                 flag = true;
             }
         }
         return flag;
     }
 
-    public static void delFolder(String folderPath,boolean isClearOut) {
+    public static void delFolder(String folderPath, boolean isClearOut) {
         delAllFile(folderPath); //删除完里面所有内容
         String filePath = folderPath;
         filePath = filePath.toString();
         java.io.File myFilePath = new java.io.File(filePath);
-        if(isClearOut){
+        if (isClearOut) {
             myFilePath.delete(); //删除空文件夹
         }
     }
